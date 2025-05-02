@@ -1,0 +1,17 @@
+[package]
+name = "icps"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "icps"
+crate-type = ["staticlib"]
+
+[profile.release]
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
+
+[dependencies]
+regex = "1.7"
