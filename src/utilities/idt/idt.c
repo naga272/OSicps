@@ -7,12 +7,7 @@
 
 void terminal_writechar(char c, char colour);
 void print(const uchar*);
-
-
-// colore caratteri per interrupt 21h
-extern char actual_color_terminal;      
-// extern unsigned char keyboard_buffer[OS_SIZE_SHELL_COMMAND];    // usata in int21h_handler
-// extern u32 counter_buffer;                                      // usata in int21h_handler
+u32 get_actual_color_terminal();
 
 
 /*
@@ -37,8 +32,7 @@ struct idtr_desc idtr_descriptor;                       // rappresenta il regist
 
 
 // si trova in idt.asm (carica la idt)
-extern void idt_load(struct idtr_desc* ptr);    
-// extern void addc_to_kb_buffer(char c);
+extern void idt_load(struct idtr_desc* ptr);
 
 
 /*
@@ -58,6 +52,7 @@ extern void idt_load(struct idtr_desc* ptr);
 extern void no_interrupt();
 extern void int21h();
 extern void int20h();
+
 
 void idt_zero()
 {
@@ -83,7 +78,6 @@ void int20h_handler()
 }
 
 
-extern void kb_set_c(uchar c);
 void int21h_handler()
 {
     /*
@@ -110,20 +104,25 @@ void int21h_handler()
 
         if (c == '\n') {
             print((uchar*) "\n");
-            //print((unsigned char*) keyboard_buffer);
+
+            // al momento non fa niente oltre che stampare il comando scritto
+            print((uchar*) keyboard_buffer); 
+
 
             // azzero il buffer della tastiera a ogni comando
-            // memset((void*) keyboard_buffer, 0, OS_SIZE_SHELL_COMMAND); 
-            // counter_buffer = 0;
+            memset((void*) keyboard_buffer, 0, OS_SIZE_SHELL_COMMAND); 
+            counter_buffer = 0;
 
-            print((uchar*) ">>>");
+            print((uchar*) "\n>>>");
+
         } else {    
             terminal_writechar(
                 convert_case(c), 
-                actual_color_terminal
+                get_actual_color_terminal()
             );
-            
-            //counter_buffer++;
+
+            keyboard_buffer[counter_buffer] = c;
+            counter_buffer++;
         }
     }
 

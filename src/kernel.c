@@ -37,6 +37,6 @@ void kernel_main()
     skmalloc(ptr, 12);  // restituisco un blocco (4095 bytes)
     kfree(ptr);         // libero i 4096 bytes
 
-    // print((const uchar*) ">>>");
-    panic((const uchar*) "Error! per ora la BSoD si attiva di default, il kernel e' ancora in fase di progettazione\n");
+    print((const uchar*) ">>>");
+    // panic((const uchar*) "Error! per ora la BSoD si attiva di default, il kernel e' ancora in fase di progettazione\n");
 }
