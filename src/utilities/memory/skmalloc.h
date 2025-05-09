@@ -24,7 +24,7 @@ extern struct heap kernel_heap;
 #define skmalloc(ptr, size)                                                     \
     do {                                                                        \
         ptr = heap_malloc(&kernel_heap, size);                                  \
-        schecker(ptr == NULL, (const uchar*) "errore nell'allocare la memoria");\
+        schecker(ptr == NULL, (const uchar*) "errore nell'allocare la memoria"); // questo va sostituito col logger\
     } while (0);
 
 
