@@ -38,4 +38,12 @@ extern void panic(const uchar*);
             panic((const uchar*) msg_error);    \
         }      
 
+
+typedef enum KEY_LOGGER {
+    FIRST_LEVEL,
+    SECOND_LEVEL,
+    THIRD_LEVEL,
+    FOURTH_LEVEL
+}logger;
+
 #endif
