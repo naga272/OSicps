@@ -46,4 +46,6 @@ void enable_interrupts();
 void disable_interrupts();
 
 
+#define PIC_EOI	0x20
+
 #endif
