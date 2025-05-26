@@ -47,5 +47,5 @@ void disable_interrupts();
 
 
 #define PIC_EOI	0x20
-
+#define PIC_KK 0x60 // key keyboard
 #endif
