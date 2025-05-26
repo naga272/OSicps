@@ -88,7 +88,7 @@ void int21h_handler()
     // insb(0x60) legge il codice del tasto dalla porta 0x60
     // per poi convrtirlo nel codice del tasto in un carattere
     // keyboard_map definita in utilities/keyboard/keyboard.c
-    u8 scancode = insb(0x60);
+    u8 scancode = insb(PIC_KK);
     
     if (scancode == SHIFT_LEFT_PRESS || scancode == SHIFT_RIGHT_PRESS)
         test.maiusc = 1;
