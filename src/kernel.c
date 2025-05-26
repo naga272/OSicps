@@ -38,5 +38,5 @@ void kernel_main()
     kfree(ptr);         // libero i 4096 bytes
 
     print((const uchar*) ">>>");
-    // panic((const uchar*) "Error! per ora la BSoD si attiva di default, il kernel e' ancora in fase di progettazione\n");
+    panic((const uchar*) "Error! per ora la BSoD si attiva di default, il kernel e' ancora in fase di progettazione\n");
 }
