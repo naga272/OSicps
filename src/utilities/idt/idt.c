@@ -67,14 +67,14 @@ void no_interrupt_handler()
     *   Invia un segnale di "End of Interrupt" (EOI) al PIC (Programmable Interrupt Controller) 
     *   per indicare che l'interrupt è stato gestito.
     */
-    outb(0x20, 0x20);
+    outb(PIC_EOI, PIC_EOI);
 }
 
 
 void int20h_handler()
 {
     // scheduler();
-    outb(0x20, 0x20);
+    outb(PIC_EOI, PIC_EOI);
 }
 
 
@@ -126,7 +126,7 @@ void int21h_handler()
         }
     }
 
-    outb(0x20, 0x20);
+    outb(PIC_EOI, PIC_EOI);
 }
 
 
