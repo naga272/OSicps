@@ -4,11 +4,13 @@
 #include "config.h"
 #include "kheap.h"
 #include "heap.h"
+#include "utilities/stdlib/stdlib.h"
+
 
 extern struct heap kernel_heap;
 
 /* 
-* Secure kernel malloc 
+* Secure kernel allocation 
 * Macro che consente di evitare di dover fare il controllo del ptr nullo
 * Si trova all'interno di un do-while per evitare errori di sintassi in caso di annidamento if. 
 * Se per esempio scriviamo il codice in questo modo senza do-while: 
@@ -25,6 +27,14 @@ extern struct heap kernel_heap;
     do {                                                                        \
         ptr = heap_malloc(&kernel_heap, size);                                  \
         schecker(ptr == NULL, (const uchar*) "errore nell'allocare la memoria");\
+    } while (0);
+
+
+#define skcalloc(ptr, size)                                                     \
+    do {                                                                        \
+        ptr = heap_malloc(&kernel_heap, size);                                  \
+        schecker(ptr == NULL, (const uchar*) "errore nell'allocare la memoria");\
+        memset(ptr, 0, size);                                                   \
     } while (0);
 
 

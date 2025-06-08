@@ -1,7 +1,6 @@
 #include "utilities/string/string.h"
 
 
-/*
 size_t strlen(const char* ptr)
 {
     size_t i;
@@ -9,4 +8,3 @@ size_t strlen(const char* ptr)
         ;
     return i;
 }
-*/

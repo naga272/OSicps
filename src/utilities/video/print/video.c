@@ -1,14 +1,10 @@
+#include "kernel.h"
 #include "utilities/stdlib/stdlib.h"
 
 #define settings_video
-
 #include "utilities/video/print/video.h"
 
 #undef settings_video
-
-
-extern uchar keyboard_buffer[OS_SIZE_SHELL_COMMAND];
-extern u32 counter_buffer;
 
 
 u16 set_char_terminal(char c, char colour)
@@ -92,8 +88,8 @@ void terminal_initialize(char colore)
     **/
     video_mem = (u16*) (0xb8000);
     
-    memset((void*) keyboard_buffer, 0, (size_t) OS_SIZE_SHELL_COMMAND); 
-    counter_buffer = 0;
+    // memset((void*) keyboard_buffer, 0, (size_t) OS_SIZE_SHELL_COMMAND); 
+    // counter_buffer = 0;
     
     for (u32 y = 0; y < VGA_HEIGHT; y++) 
         for (u32 x = 0; x < VGA_WIDTH; x++) 
@@ -134,4 +130,32 @@ void set_terminal_column(u16 new_column)
 void set_actual_color_terminal(char new_color)
 {
     actual_color_terminal = new_color;
+}
+
+
+void printk(const char* msg)
+{
+    /*
+    * */
+    if (!msg)
+        return;
+
+    u8 lvl = 7;
+
+    if (msg[0] == '<' && msg[1] >= '0' && msg[1] <= '7' && msg[2] == '>') {
+        lvl = ((u8) msg[1]) - 48;
+    }    
+
+    if (lvl > console_loglevel)
+        return;
+
+    const char* start = msg + 3;
+
+    while (*start) {
+        terminal_writechar(
+            *start++,
+            get_actual_color_terminal()
+        );
+    }
+
 }

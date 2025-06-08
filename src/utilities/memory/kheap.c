@@ -2,6 +2,7 @@
 #include "kheap.h"
 #include "heap.h"
 #include "config.h"
+#include "../stdlib/stdlib.h"
 
 
 struct heap         kernel_heap;
@@ -23,12 +24,6 @@ void kheap_init()
 
     schecker(response != 0, "critical error! Impossibile allocare la memoria per il kernel");
 }
-
-
-// secure kernel malloc
-#define skmalloc(ptr, size)                         \
-    ptr = heap_malloc(&kernel_heap, size);          \
-    schecker(ptr == NULL, (const uchar*) "errore nell'allocare la memoria");
 
 
 void* kmalloc(size_t size) 

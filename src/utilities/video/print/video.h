@@ -36,7 +36,7 @@ char actual_color_terminal = VERDE_CHIARO;
 u16* video_mem      = 0;
 u16 terminal_row    = 0;  // tiene traccia a quale riga del monitor sto scrivendo (max value VGA_HEIGHT)
 u16 terminal_col    = 0;  // tiene traccia della colonna del monitor da dove sto scrivendo (max value VGA_WIDTH)
-
+u8 console_loglevel = 7;  // default value start kernel
 #endif
 
 
@@ -51,6 +51,7 @@ void terminal_put_char(u32 x, u32 y, char c, char colour);
 void terminal_writechar(char c, char colour);
 void print(const uchar* string);
 void terminal_initialize();
+void printk(const char*);
 
 u16 get_terminal_row();
 u16 get_terminal_column();

@@ -46,12 +46,15 @@ extern void idt_load(struct idtr_desc* ptr);
 /*
 * funzioni di gestione degli interrupt (descritte in idt.asm):
 *   - no_interrupt():   e' un handler generico per interrupt non gestiti
-*   - int21h():         e' specifico per l'interrupt 0x21, che è tipicamente associato alla tastiera.
 *   - idt_zero():       gestisce l'interrupt 0, divisione per 0
+*   - int14h:           Page Fault
+*   - int20h:           processi scheduling
+*   - int21h():         e' specifico per l'interrupt 0x21, che è tipicamente associato alla tastiera.
 */
 extern void no_interrupt();
-extern void int21h();
+extern void int14h();
 extern void int20h();
+extern void int21h();
 
 
 void idt_zero()
@@ -67,6 +70,12 @@ void no_interrupt_handler()
     *   Invia un segnale di "End of Interrupt" (EOI) al PIC (Programmable Interrupt Controller) 
     *   per indicare che l'interrupt è stato gestito.
     */
+    outb(0x20, 0x20);
+}
+
+
+void int14h_handler()
+{
     outb(0x20, 0x20);
 }
 
@@ -156,6 +165,7 @@ void idt_init()
         idt_set(i, no_interrupt);
 
     idt_set(0, idt_zero);
+    idt_set(0x14, int14h);
     //idt_set(0x20, int20h);
     idt_set(0x21, int21h);
 

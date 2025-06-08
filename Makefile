@@ -1,6 +1,8 @@
 RUST_PROJECT_DIR=./src/utilities/icps
 
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/video/video.o ./build/video/panic.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/heap.o ./build/memory/kheap.o ./build/io/io.asm.o ./build/stdlib/stdlib.o  
+
+# ./build/user_mode/gdt.asm.o ./build/user_mode/gdt.o 
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/video/video.o ./build/video/panic.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/heap.o ./build/memory/kheap.o ./build/io/io.asm.o ./build/stdlib/stdlib.o ./build/memory/paging/paging.asm.o ./build/memory/paging/paging.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
@@ -65,6 +67,25 @@ all: ./bin/boot.bin ./bin/kernel.bin
 
 ./build/video/panic.o: ./src/utilities/video/panic/panic.c
 	i686-elf-gcc $(INCLUDES) -I./src/utilities/video/panic/ $(FLAGS) -std=gnu99 -c ./src/utilities/video/panic/panic.c -o ./build/video/panic.o
+
+
+# ./build/user_mode/gdt.asm.o: ./src/utilities/user_mode/gdt.asm
+#	 nasm -f elf -g ./src/utilities/user_mode/gdt.asm -o ./build/user_mode/gdt.asm.o
+
+
+# ./build/user_mode/gdt.o: ./src/utilities/user_mode/gdt.c
+#	 i686-elf-gcc $(INCLUDES) -I./src/utilities/video/panic/ $(FLAGS) -std=gnu99 -c ./src/utilities/user_mode/gdt.c -o ./build/user_mode/gdt.o
+
+
+
+./build/memory/paging/paging.asm.o: ./src/utilities/memory/paging/paging.asm
+	# compilazione file 
+	nasm -f elf -g ./src/utilities/memory/paging/paging.asm -o ./build/memory/paging/paging.asm.o
+
+
+./build/memory/paging/paging.o: ./src/utilities/memory/paging/paging.c
+	# compilazione file ./src/utilities/memory/paging/paging.c
+	i686-elf-gcc $(INCLUDES) -I./src/idt $(FLAGS) -std=gnu99 -c ./src/utilities/memory/paging/paging.c -o ./build/memory/paging/paging.o
 
 
 run:
